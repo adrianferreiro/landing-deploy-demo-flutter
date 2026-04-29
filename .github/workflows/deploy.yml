@@ -30,6 +30,11 @@ jobs:
 
       - name: Debug - listar FTP remoto
         run: |
+          echo "=== RAIZ FTP ==="
+          curl -s --list-only ftp://${{ secrets.FTP_SERVER }}/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" || echo "No se pudo listar raiz"
+          echo "=== PWD ==="
+          curl -s ftp://${{ secrets.FTP_SERVER }}/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "PWD" 2>&1 | grep '257' || echo "No se pudo obtener PWD"
+          echo "=== public_html ==="
           curl -s --list-only ftp://${{ secrets.FTP_SERVER }}/public_html/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" || echo "No se pudo listar public_html/"
-          echo "---"
+          echo "=== landing-flutter ==="
           curl -s --list-only ftp://${{ secrets.FTP_SERVER }}/public_html/landing-flutter/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" || echo "No se pudo listar landing-flutter/"
