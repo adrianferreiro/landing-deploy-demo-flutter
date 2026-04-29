@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: build/web/
-          server-dir: landing-flutter/
+          server-dir: public_html/landing-flutter/
 
       - name: Debug - listar FTP remoto
         run: |
