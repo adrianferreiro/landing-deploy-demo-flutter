@@ -16,6 +16,9 @@ jobs:
 
       - run: flutter build web --release
 
+      - name: Debug - listar archivos locales
+        run: ls -la build/web/
+
       # Sube el contenido de build/web/ a tu hosting via FTP
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -24,3 +27,9 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: build/web/
           server-dir: public_html/landing-flutter/
+
+      - name: Debug - listar FTP remoto
+        run: |
+          curl -s --list-only ftp://${{ secrets.FTP_SERVER }}/public_html/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" || echo "No se pudo listar public_html/"
+          echo "---"
+          curl -s --list-only ftp://${{ secrets.FTP_SERVER }}/public_html/landing-flutter/ --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" || echo "No se pudo listar landing-flutter/"
