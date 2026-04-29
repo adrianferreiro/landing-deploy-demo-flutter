@@ -36,13 +36,34 @@ class LandingPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('>', style: TextStyle(fontSize: 64, color: green, fontWeight: FontWeight.bold)),
+              Text(
+                '>',
+                style: TextStyle(
+                  fontSize: 64,
+                  color: green,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 16),
-              Text('DEPLOY_DEMO.exe', style: TextStyle(fontSize: 28, color: green, fontWeight: FontWeight.bold, letterSpacing: 2)),
+              Text(
+                'DEPLOY_DEMO.exe',
+                style: TextStyle(
+                  fontSize: 28,
+                  color: green,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
               const SizedBox(height: 8),
-              Text('// CI/CD pipeline: GitHub Actions → Hostinger', style: TextStyle(fontSize: 14, color: dim)),
+              Text(
+                '// CI/CD pipeline: GitHub Actions → Hostinger',
+                style: TextStyle(fontSize: 14, color: dim),
+              ),
               const SizedBox(height: 6),
-              Text('// status: ONLINE ✓', style: TextStyle(fontSize: 14, color: dim)),
+              Text(
+                '// status: ONLINE ✓',
+                style: TextStyle(fontSize: 14, color: dim),
+              ),
               const SizedBox(height: 32),
               _InfoRow(label: 'framework', value: 'Flutter Web'),
               _InfoRow(label: 'deploy', value: 'FTP via GitHub Actions'),
@@ -50,14 +71,23 @@ class LandingPage extends StatelessWidget {
               _InfoRow(label: 'packages', value: 'google_fonts, url_launcher'),
               const SizedBox(height: 32),
               OutlinedButton.icon(
-                onPressed: () => launchUrl(Uri.parse('https://github.com/adrianferreiro')),
+                onPressed: () =>
+                    launchUrl(Uri.parse('https://github.com/adrianferreiro')),
                 icon: const Icon(Icons.terminal, color: green),
-                label: Text('[ OPEN GITHUB ]', style: TextStyle(color: green, letterSpacing: 1)),
+                label: Text(
+                  '[ OPEN GITHUB ]',
+                  style: TextStyle(color: green, letterSpacing: 1),
+                ),
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: green),
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                 ),
               ),
+              const Divider(),
+              Center(child: Text('Flutter DEV')),
             ],
           ),
         ),
@@ -76,7 +106,10 @@ class _InfoRow extends StatelessWidget {
     const green = Color(0xFF00FF41);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Text('$label: "$value"', style: TextStyle(fontSize: 14, color: green.withAlpha(180))),
+      child: Text(
+        '$label: "$value"',
+        style: TextStyle(fontSize: 14, color: green.withAlpha(180)),
+      ),
     );
   }
 }

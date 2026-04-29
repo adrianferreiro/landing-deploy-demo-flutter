@@ -1,0 +1,58 @@
+# ============================================================
+# Deploy Flutter Web a Azure Static Web Apps
+# ============================================================
+# Azure Static Web Apps es un servicio gratuito (tiene free tier)
+# para hospedar sitios estáticos (HTML/CSS/JS).
+# Perfecto para Flutter Web porque el build genera archivos estáticos.
+#
+# SETUP PREVIO:
+# 1. Crear un recurso "Static Web App" en el portal de Azure
+#    (portal.azure.com → Crear recurso → Static Web App)
+# 2. Al crearlo, Azure te genera automáticamente un secret
+#    llamado AZURE_STATIC_WEB_APPS_API_TOKEN en tu repo de GitHub.
+#    Si no lo hace, copiá el "deployment token" desde el portal
+#    y agregalo manualmente como secret en GitHub.
+#
+# PARA USARLO:
+# Mover este archivo a .github/workflows/deploy-azure.yml
+# y configurar el secret AZURE_STATIC_WEB_APPS_API_TOKEN
+# ============================================================
+
+name: Deploy Flutter Web to Azure Static Web Apps
+
+# Se ejecuta en cada push a main (igual que nuestro deploy a Hostinger)
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Clonar el repo (mismo paso que usamos hoy)
+      - uses: actions/checkout@v4
+
+      # 2. Instalar Flutter (mismo paso que usamos hoy)
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      # 3. Compilar Flutter Web
+      # Sin --base-href porque Azure Static Web Apps sirve desde la raíz
+      - run: flutter build web --release
+
+      # 4. Subir a Azure Static Web Apps
+      # En vez de FTP, usa la acción oficial de Azure.
+      # Solo necesita el token de deploy y la carpeta del build.
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          # Token que Azure genera al crear el recurso
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub lo provee automáticamente
+          action: upload
+          # Carpeta donde están los archivos compilados
+          app_location: build/web
+          # No necesitamos API backend
+          skip_api_build: true
+          # Le decimos que no intente compilar nada, ya lo hicimos arriba
+          skip_app_build: true
